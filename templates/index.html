@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- External CSS-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <title>SCC | Shopping Mall</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Salsa&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="order">
+    <img class="d-block w-100"
+        src="https://imgcdn.floweraura.com/combo-of-ficus-microcarpa-bonsai-n-showpiece-9815657pl-A_0.jpg"
+        alt="First slide">
+    <div class="inside_details">
+        <h1>Nurture<span style="font-size: small; color: #228b22 ">&nbsp Price: $20</span></h1>
+        <p>Grow your happiness at home, buy a plant, sow joy!</p>
+    </div>
+    <div id="exchangeRate"></div>
+    <div class="post_details">
+        <form id="order-form">
+            <div class="input-group input-group-sm mb-3">
+                <span style="color: #006600" class="input-group-text" id="inputGroup-sizing-sm">Your name</span>
+                <input type="text" class="form-control" aria-label="Sizing example input" name="name" id="order-name"
+                    aria-describedby="inputGroup-sizing-sm" required>
+            </div>
+
+            <div class="input-group input-group-sm mb-3">
+                <span style="color: #006600" class="input-group-text" id="inputGroup-sizing-sm">Quantity</span>
+                <input type="number"  name="count" min="1" max="5"
+                    placeholder="-- Please select quantity --" class="form-control" id="order-count" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-sm" required>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <span style="color: #006600" class="input-group-text" id="inputGroup-sizing-sm">Address</span>
+                <input type="text" class="form-control" aria-label="Sizing example input" id="order-address" name="address"
+                    aria-describedby="inputGroup-sizing-sm" required>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <span style="color: #006600" class="input-group-text" id="inputGroup-sizing-sm">Phone number</span>
+                <input type="text" class="form-control" aria-label="Sizing example input"id="order-phone" name="phone"
+                    aria-describedby="inputGroup-sizing-sm" required>
+            </div>
+            <div class="center-container">
+                <button type="button" onclick="save_order()" class="btn btn-success">Order</button>
+            </div>
+        </form>
+        <div class="orders">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Phone number</th>
+                </tr>
+                </thead>
+                <tbody id="orders-box">
+                <tr>
+                    <td>Rupa</td>
+                    <td>2</td>
+                    <td>Delhi</td>
+                    <td>7387287821</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> 
+<script>
+    $(document).ready(function () {
+        // Load existing orders when the page loads
+        show_order();
+    });
+    function save_order() {
+        let name = $('#order-name').val();
+        let count = $('#order-count').val();
+        let address = $('#order-address').val();
+        let phone = $('#order-phone').val();
+
+    $.ajax({
+            type: 'POST',
+            url: '/order',
+            data: {
+                name_give: name,
+                count_give: count,
+                address_give: address,
+                phone_give: phone,
+               
+            },
+            success: function (response) {
+                alert(response['msg']);
+                window.location.reload();
+            }
+        });
+
+    }
+    function show_order() {
+        $.ajax({
+            type: "GET",
+            url: "/order",
+            data: {},
+            success: function (response) {
+                $('#order-box').empty();
+                let rows =response['orders'];
+                for (let i = 0; i < rows.length; i++) {
+                    let name = rows[i]['name'];
+                    let count = rows[i]['count'];
+                    let address = rows[i]['address'];
+                    let phone = rows[i]['phone'];
+                    let temp_html = `
+            <tr>
+                <td>${name}</td>
+                <td>${count}</td>
+                <td>${address}</td>
+                <td>${phone}</td>
+              
+            </tr> `;
+            $('#orders-box').append(temp_html);
+        }
+    }
+        });
+    }
+
+</script>
+
+</body>
+
+
+</html>

@@ -1,0 +1,52 @@
+img{
+    margin-top: 0.7%;
+    max-width: 27%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5%;
+  }
+  .input-group-item {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px; /* Adjust the space between input boxes */
+  }
+  
+  .input-group{
+    justify-content: center;
+  }
+  
+  .post_details{
+    margin-top: 0.7%;
+    max-width: 27%;
+    margin-left: auto;
+    margin-right: auto; 
+  
+  }
+  .order {
+    text-align: center;
+}
+
+.orders {
+    margin-top: 100px;
+}
+  
+  .inside_details{
+    margin-top: 0.7%;
+    max-width: 27%;
+    margin-left: auto;
+    margin-right: auto; 
+  }
+  *{
+    font-family: 'Salsa', cursive;
+  }
+  .center-container {
+    text-align: center;
+  }
+
+  #exchangeRate{
+    margin-top: 0.7%;
+    max-width: 27%;
+    margin-left: auto;
+    margin-right: auto; 
+    color: blue;
+  }
